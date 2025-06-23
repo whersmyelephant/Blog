@@ -17,12 +17,10 @@ router.get('', async (req, res) => {
             let page = req.query.page || 1;
            
             //Afficher les posts en les triants du plus ancien en premier grâce à un "$sort: { createdAt: -1 }"
-            const data = await Post.aggregate([{ $sort: { createdAt: -1 } } ])
-            .skip(perPage * page - perPage)
-            .limit(perPage)
-            .exec();
+            const data = await Post.find().sort({ createdAt: -1 }).skip(perPage * page - perPage).limit(perPage);
 
-            const count = await Post.count();
+
+            const count = await Post.countDocuments();
             const nextPage = parseInt(page) + 1;
             const hasNextPage = nextPage <= Math.ceil(count / perPage);
 
