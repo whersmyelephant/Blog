@@ -10,12 +10,10 @@
 
   <ul class="article-ul">
    
-<!-- ejseach pour populate les datas de chaque post dans la liste suivante -->
-    <% data.forEach(post => { %>
-     
-    
+<!-- ejseach pour afficher les datas de chaque post dans la page /post/_iddupost -->
+    <% data.forEach(post => { %>    
       <li>
-        <a href="#">
+        <a href="/post/<%= post._id %>">
           <!-- récupérer les datas grâce au keyword "post" -->
           <span><%= post.title %></span>
           <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
@@ -26,7 +24,10 @@
 
   </ul>
 
-    <a href="#" class="pagination">&lt; View Older Posts</a>
+  <% if (nextPage !== null) { %>
+   <a href="/?page=<%= nextPage %>" class="pagination">&lt; View Older Posts</a>
+  <% } %>
+    
 
  
 
