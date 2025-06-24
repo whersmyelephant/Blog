@@ -30,14 +30,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// 5. Templating Engine
+
 app.use(expressLayouts);
 app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// 6. Routes utilisateurs (doit être AVANT les autres routes si tu veux que /users/register etc. soient accessibles)
-const userRoutes = require('./server/routes');
+// 6. Routes utilisateurs (doit être AVANT les autres routes si tu veux que users register etc. soient accessibles)
+
+const userRoutes = require('./server/routes/users');
 app.use('/users', userRoutes);
 
 // 7. Routes principales (posts, accueil, etc)
