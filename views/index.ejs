@@ -1,3 +1,17 @@
+<!--Afficher les boutons selon l’état de connexion.-->
+
+<% if (!user) { %>
+  <a href="/users/login">Se connecter</a>
+  <a href="/users/register">S'inscrire</a>
+<% } else { %>
+  <span>Bienvenue, <%= user.username %> !</span>
+  <a href="/users/logout">Se déconnecter</a>
+  <% if (user.role === 'admin') { %>
+    <a href="/admin">Admin</a>
+  <% } %>
+<% } %>
+
+
 <div class="author">
   <h1 class="author__heading">hello, i'm Evan</h1>
   <p class="author__body">Cybersecurity student</p>
