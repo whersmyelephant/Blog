@@ -2,7 +2,7 @@ const User = require('../models/UserCrate');
 const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
-  const { username, email, password, adresse, date_naissance, num_securite_sociale } = req.body;
+  const { username, email, password, adresse, date_naissance } = req.body;
   const hash = await bcrypt.hash(password, 10);
   await User.create({
     id: Date.now(), // ou une autre méthode d’id unique
@@ -11,8 +11,7 @@ exports.register = async (req, res) => {
     password: hash,
     role: 'user',
     adresse,
-    date_naissance,
-    num_securite_sociale
+    date_naissance
   });
   res.redirect('/users/login');
 };
@@ -21,9 +20,9 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findByEmail(email);
   if (!user) return res.status(400).send('Utilisateur inconnu');
-  const valid = await bcrypt.compare(password, user[3]); // index du champ password
+  const valid = await bcrypt.compare(password, user.password); // <-- accès objet
   if (!valid) return res.status(400).send('Mot de passe incorrect');
-  req.session.user = { id: user[0], username: user[1], role: user[4] };
+  req.session.user = { id: user.id, username: user.username, role: user.role }; // <-- accès objet
   res.redirect('/');
 };
 
