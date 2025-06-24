@@ -37,8 +37,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // 6. Routes utilisateurs (doit être AVANT les autres routes si tu veux que /users/register etc. soient accessibles)
-const userRoutes = require('./server/routes/user');
-app.use('/user', userRoutes);
+const userRoutes = require('./server/routes');
+app.use('/users', userRoutes);
 
 // 7. Routes principales (posts, accueil, etc)
 app.use('/', require('./server/routes/main'));
