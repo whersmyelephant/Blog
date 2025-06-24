@@ -1,18 +1,18 @@
-const client = require('../config/cratedb');
+const pool = require('../config/cratedb');
 
 exports.findByEmail = async (email) => {
-  const result = await client.execute(
-    'SELECT * FROM users WHERE email = ?', [email]
+  const result = await pool.execute(
+    'SELECT * FROM users WHERE email = $1', [email]
   );
   return result.rows[0];
 };
 
 exports.create = async (user) => {
-  await client.execute(
+  await pool.query(
     `INSERT INTO users (id, username, email, password, role, adresse, date_naissance, num_securite_sociale)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
     [
-      user.id, // génère un id unique (ex: Date.now())
+      user.id,
       user.username,
       user.email,
       user.password,
@@ -23,3 +23,4 @@ exports.create = async (user) => {
     ]
   );
 };
+
